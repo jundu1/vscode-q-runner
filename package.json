@@ -11,11 +11,26 @@
         "Other"
     ],
     "activationEvents": [
-        "onCommand:extension.sayHello"
+        "onCommand:extension.sayHello",
+        "onCommand:q-runner.sayHello1",
+        "onCommand:q-runner.createTerminal",
+        "onCommand:q-runner.sendText"
     ],
-    "main": "./extension",
+    "main": "./src/extension",
     "contributes": {
         "commands": [
+            {
+                "command": "q-runner.sayHello1",
+                "title": "Hello World 1"
+            },
+            {
+                "command": "q-runner.createTerminal",
+                "title": "Create Terminal"
+            },
+            {
+                "command": "q-runner.sendText",
+                "title": "Send Text"
+            },
             {
                 "command": "extension.sayHello",
                 "title": "Hello World"
