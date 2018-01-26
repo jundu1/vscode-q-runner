@@ -2,7 +2,7 @@
     "name": "q-runner",
     "displayName": "q-runner",
     "description": "",
-    "version": "0.0.1",
+    "version": "0.1.0",
     "publisher": "jundu",
     "engines": {
         "vscode": "^1.19.0"
