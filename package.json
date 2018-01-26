@@ -7,12 +7,7 @@
     "engines": {
         "vscode": "^1.19.0"
     },
-    "categories": [
-        "Other"
-    ],
     "activationEvents": [
-        "onCommand:extension.sayHello",
-        "onCommand:q-runner.sayHello1",
         "onCommand:q-runner.createTerminal",
         "onCommand:q-runner.sendText"
     ],
@@ -20,20 +15,12 @@
     "contributes": {
         "commands": [
             {
-                "command": "q-runner.sayHello1",
-                "title": "Hello World 1"
-            },
-            {
                 "command": "q-runner.createTerminal",
-                "title": "Create Terminal"
+                "title": "Q: Create RunQ Terminal"
             },
             {
                 "command": "q-runner.sendText",
-                "title": "Send Text"
-            },
-            {
-                "command": "extension.sayHello",
-                "title": "Hello World"
+                "title": "Q: Run Selected Text"
             }
         ]
     },
