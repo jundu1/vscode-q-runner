@@ -5,24 +5,177 @@
     "version": "0.1.0",
     "publisher": "jundu",
     "engines": {
-        "vscode": "^1.19.0"
+        "vscode": "^1.18.0"
     },
     "activationEvents": [
         "onCommand:q-runner.createTerminal",
-        "onCommand:q-runner.sendText"
+        "onCommand:q-runner.runSelectionInLastTerminal",
+        "onCommand:q-runner.runAndExportInLastTerminal"
     ],
     "main": "./src/extension",
     "contributes": {
         "commands": [
             {
                 "command": "q-runner.createTerminal",
-                "title": "Q: Create RunQ Terminal"
+                "title": "Q: Create New runQ Terminal"
             },
             {
-                "command": "q-runner.sendText",
-                "title": "Q: Run Selected Text"
+                "command": "q-runner.runSelectionInLastTerminal",
+                "title": "Q: Run Selection in Last runQ Terminal"
+            },
+            {
+                "command": "q-runner.runAndExportInLastTerminal",
+                "title": "Q: Run and Export in Last runQ Terminal"
+            },
+            {
+                "command": "q-runner.runSelectionInRunQ_1",
+                "title": "Q: Run Selection in Terminal runQ_1"
+            },
+            {
+                "command": "q-runner.runSelectionInRunQ_2",
+                "title": "Q: Run Selection in Terminal runQ_2"
+            },
+            {
+                "command": "q-runner.runSelectionInRunQ_3",
+                "title": "Q: Run Selection in Terminal runQ_3"
+            },
+            {
+                "command": "q-runner.runSelectionInRunQ_4",
+                "title": "Q: Run Selection in Terminal runQ_4"
+            },
+            {
+                "command": "q-runner.runSelectionInRunQ_5",
+                "title": "Q: Run Selection in Terminal runQ_5"
+            },
+            {
+                "command": "q-runner.runSelectionInRunQ_6",
+                "title": "Q: Run Selection in Terminal runQ_6"
+            },
+            {
+                "command": "q-runner.runAndExportInRunQ_1",
+                "title": "Q: Run and Export from Terminal runQ_1"
+            },
+            {
+                "command": "q-runner.runAndExportInRunQ_2",
+                "title": "Q: Run and Export from Terminal runQ_2"
+            },
+            {
+                "command": "q-runner.runAndExportInRunQ_3",
+                "title": "Q: Run and Export from Terminal runQ_3"
+            },
+            {
+                "command": "q-runner.runAndExportInRunQ_4",
+                "title": "Q: Run and Export from Terminal runQ_4"
+            },
+            {
+                "command": "q-runner.runAndExportInRunQ_5",
+                "title": "Q: Run and Export from Terminal runQ_5"
+            },
+            {
+                "command": "q-runner.runAndExportInRunQ_6",
+                "title": "Q: Run and Export from Terminal runQ_6"
             }
-        ]
+        ],
+        "keybindings": [
+            {
+                "command": "q-runner.runSelectionInLastTerminal",
+                "key": "ctrl+E"
+            },
+            {
+                "command": "q-runner.runSelectionInRunQ_1",
+                "key": "ctrl+1"
+            },
+            {
+                "command": "q-runner.runSelectionInRunQ_2",
+                "key": "ctrl+2"
+            },
+            {
+                "command": "q-runner.runSelectionInRunQ_3",
+                "key": "ctrl+3"
+            },
+            {
+                "command": "q-runner.runSelectionInRunQ_4",
+                "key": "ctrl+4"
+            },
+            {
+                "command": "q-runner.runSelectionInRunQ_5",
+                "key": "ctrl+5"
+            },
+            {
+                "command": "q-runner.runSelectionInRunQ_6",
+                "key": "ctrl+6"
+            },
+            {
+                "command": "q-runner.runAndExportInLastTerminal",
+                "key": "ctrl+shift+E"
+            },
+            {
+                "command": "q-runner.runAndExportInRunQ_1",
+                "key": "ctrl+shift+1"
+            },
+            {
+                "command": "q-runner.runAndExportInRunQ_2",
+                "key": "ctrl+shift+2"
+            },
+            {
+                "command": "q-runner.runAndExportInRunQ_3",
+                "key": "ctrl+shift+3"
+            },
+            {
+                "command": "q-runner.runAndExportInRunQ_4",
+                "key": "ctrl+shift+4"
+            },
+            {
+                "command": "q-runner.runAndExportInRunQ_5",
+                "key": "ctrl+shift+5"
+            },
+            {
+                "command": "q-runner.runAndExportInRunQ_6",
+                "key": "ctrl+shift+6"
+            }
+		],
+		"menus": {
+			"editor/context": [
+				{
+                    "command": "q-runner.createTerminal",
+                    "group": "navigation"
+				},
+				{
+                    "command": "q-runner.runSelectionInLastTerminal",
+					"group": "navigation"
+				},
+				{
+                    "command": "q-runner.runAndExportInLastTerminal",
+					"group": "navigation"
+				}
+            ]
+        },
+		"configuration": {
+			"type": "object",
+			"title": "Q Runner configuration",
+			"properties": {
+				"q-runner.cwd": {
+					"type": "string",
+					"default": "",
+					"description": "Set the working directory."
+                },
+                "q-runner.initKerberosHost": {
+					"type": "string",
+					"default": "nycoredev4",
+					"description": "Set the working directory."
+                },
+                "q-runner.initWinGitBashScript": {
+					"type": "string",
+					"default": "",
+					"description": "Full Path of Initial Windows Git Bash Script upon Creation of runQ Terminal"
+                },
+				"q-runner.initUnixScript": {
+					"type": "string",
+					"default": "",
+					"description": "Full Path of Initial Unix Script. Executed Post SSH"
+                }
+            }
+        }
     },
     "scripts": {
         "postinstall": "node ./node_modules/vscode/bin/install",
