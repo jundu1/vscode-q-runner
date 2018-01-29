@@ -1,5 +1,4 @@
 Object.defineProperty(exports, "__esModule", { value: true });
-const fs = require("fs"); // TODO: for exporting
 const os = require("os");
 const path_1 = require("path");
 const vscode = require("vscode");
@@ -7,30 +6,43 @@ const vscode = require("vscode");
 const TmpDir = os.tmpdir();
 class CodeManager {
     constructor() {
-        this._outputChannel = vscode.window.createOutputChannel("Code");
         this._terminalList = [];
+        this._config = vscode.workspace.getConfiguration("q-runner");
     }
     onDidCloseTerminal() {
         this._terminalList = null;
     }
-    sendKerberosPassword(terminal) {
+    sshKerberosTerminal(terminal) {
         let options = {
             password: true,
             placeHolder: "Kerberos Password",
             prompt: "Enter Kerberos Password",
             ignoreFocusOut: true
         }
+        const initWinGitBashCmd = this._config.get('initWinGitBashCmd');
+        const initUnixCmd = this._config.get('initUnixCmd');
+        const initKerberosHost = this._config.get('initKerberosHost');
         vscode.window.showInputBox(options).then( (pw) => {
-            terminal.sendText('cd C:/Dev/debug/');
+            terminal.sendText(initWinGitBashCmd);
+            terminal.sendText('ssh '+ initKerberosHost);
             terminal.sendText(pw);
-            terminal.sendText('q');
+            terminal.sendText(initUnixCmd);
             terminal.show();
         });
     }
     createTerminal() {
-        const newTerminal = vscode.window.createTerminal('runQ ' + (this._terminalList.length + 1) );
+        const newTerminal = vscode.window.createTerminal('runQ ' + (this._terminalList.length + 1));
         this._terminalList.push(newTerminal);
-        this.sendKerberosPassword(newTerminal);
+        this.sshKerberosTerminal(newTerminal);
+    }
+    disposeLastTerminal() {
+        if (this._terminalList.length === 0) {
+            vscode.window.showErrorMessage('No active runQ terminals');
+        } else 
+        {
+            this._terminalList[length-1].dispose();
+            this._terminalList.pop();
+        }        
     }
     getTerminalById(termId) {
         if (this._terminalList.length === 0) {
@@ -71,46 +83,65 @@ class CodeManager {
         for (let i = 0; i < splitedLines.length; i++) {
             command += this.removeComments(splitedLines[i]) + ' ';
         }
+        // return command;
+        // TODO: check balanced parentheses 
         if (this.parenthesesAreBalanced(command)) {
             return command;
         } else {
+            vscode.window.showErrorMessage('Imbalanced Brackets or Parentheses in Selection');
             return '0N!`$"ERROR: Executing Selection; Imbalanced Brackets or Parentheses";';
-        }        
+        }
     }
-    qExportFn(varName) {
-        return '@[{show `$"Exporting to ",(string x), "...";save x; show `$"Exporting....Done";delete ' + varName + ' from `.};'
-            + '`$"./export/' + varName + '.csv";'
-            + '{show `$"ERROR: ",x;show `$raze "ERROR: Exporting to ", (system "pwd"), "/export; Not a Table? Access?";delete ' + varName + ' from `.}];';
+    qExportFn(tmpVar) {
+        let exportPath = this._config.get('exportPath');
+        console.log(exportPath);
+        if (exportPath.isEmpty || exportPath === "") {
+            exportPath = './export/';
+        } else {
+            exportPath = exportPath[exportPath.length - 1] === '/' 
+                ? exportPath + 'export/'
+                : exportPath + '/export/';
+        }
+        console.log(exportPath);
+        return '@[{show `$"Exporting to ",(string x), "...";save x; show `$"Exporting....Done";delete ' + tmpVar + ' from `.};'
+            + '`$"' + exportPath + tmpVar + '.csv";'
+            + '{show `$"ERROR: ",x;show `$raze "ERROR: Exporting to ", (system "pwd"), "/export; Not a Table? Access?";delete ' + tmpVar + ' from `.}];';
     }
-    qExecuteForExport(varName, command) {
-        const exec = varName + ':: { ' + command + ' }[]; ';
+    qExecuteForExport(tmpVar, command) {
+        const exec = tmpVar + ':: { ' + command + ' }[]; ';
         const ret = '@[{show `$"Executing Selection..."; ' + exec + ';show `$"Executing Selection...Done"};1b;'
             + '{show `$"ERROR: ",x;show `$"ERROR: Executing Selection; Try Run Selection First Before Exporting"}];';
         return ret;
     }
     qExportParser(editor) {
-        let command = this.qParser(editor);
+        const command = this.qParser(editor);
         const dateTimeString = new Date().toISOString().replace(/[-:.]/g, '_');
-        const varName = 'runQExport_' + dateTimeString;        
-        const exportComm = this.qExecuteForExport(varName, command) + this.qExportFn(varName);
+        const tmpVar = 'runQExport_' + dateTimeString;
+        const exportComm = this.qExecuteForExport(tmpVar, command) + this.qExportFn(tmpVar);
         return exportComm;
     }
     parenthesesAreBalanced(checkStr) {
         const parentheses = "[]{}()";
         let stack = [], 
-        i, character, bracePosition;      
-        for(i = 0; character = checkStr[i]; i++) {
-          bracePosition = parentheses.indexOf(character);      
-          if(bracePosition === -1) {
-            continue;
-          }      
-          if(bracePosition % 2 === 0) {
-            stack.push(bracePosition + 1); // push next expected brace position
-          } else {
-            if(stack.length === 0 || stack.pop() !== bracePosition) {
-              return false;
+        i, character, bracePosition, 
+        isInQuotation = false;
+        for (i = 0; character = checkStr[i]; i++) {
+            // check if is in quotation now 
+            if (character === '"' && checkStr[i-1] != '\\') {
+                isInQuotation = !isInQuotation;
             }
-          }
+            // check balance
+            bracePosition = parentheses.indexOf(character);
+            if(bracePosition === -1 || isInQuotation) {
+                continue;
+            }
+            if(bracePosition % 2 === 0) {
+                stack.push(bracePosition + 1); // push next expected brace position
+            } else {
+                if(stack.length === 0 || stack.pop() !== bracePosition) {
+                return false;
+                }
+            }
         }
         return stack.length === 0;
     }
