@@ -4,7 +4,7 @@ This is the VSCode Q Runner extension. It gives you some helpful commands that r
 
 ## Features
 
-![Create Terminal](images/create-terminal.png\)
+![Create Terminal](create-terminal.png\)
 
 ![Run Selection](images/run-selection.png\)
 
