@@ -12,28 +12,14 @@ class CodeManager {
     onDidCloseTerminal() {
         this._terminalList = null;
     }
-    sshKerberosTerminal(terminal) {
-        let options = {
-            password: true,
-            placeHolder: "Kerberos Password",
-            prompt: "Enter Kerberos Password",
-            ignoreFocusOut: true
-        }
+    execInitCmd(terminal) {
         const initWinGitBashCmd = this._config.get('initWinGitBashCmd');
-        const initUnixCmd = this._config.get('initUnixCmd');
-        const initKerberosHost = this._config.get('initKerberosHost');
-        vscode.window.showInputBox(options).then( (pw) => {
-            terminal.sendText(initWinGitBashCmd);
-            terminal.sendText('ssh '+ initKerberosHost);
-            terminal.sendText(pw);
-            terminal.sendText(initUnixCmd);
-            terminal.show();
-        });
+        terminal.sendText(initWinGitBashCmd);
     }
     createTerminal() {
         const newTerminal = vscode.window.createTerminal('runQ ' + (this._terminalList.length + 1));
         this._terminalList.push(newTerminal);
-        this.sshKerberosTerminal(newTerminal);
+        this.execInitCmd(newTerminal);
     }
     disposeLastTerminal() {
         if (this._terminalList.length === 0) {

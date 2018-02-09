@@ -1,0 +1,146 @@
+{
+    "scopeName": "source.q",
+    "fileTypes": [
+        "q"
+    ],
+    "name": "q",
+    "patterns": [
+        {
+            "begin": "\/\n",
+            "comment": "string",
+            "end": "\\\\\n",
+            "name": "comment.block.source.q"
+        },
+        {
+            "comment": "string",
+            "match": "^\/.+",
+            "name": "comment.block.source.q"
+        },
+        {
+            "begin": "^\/[ ]*$",
+            "comment": "string",
+            "end": "^\\[ ]*$",
+            "name": "comment.block.documentation"
+        },
+        {
+            "comment": "string",
+            "match": "^\/.+",
+            "name": "comment.block.source.q"
+        },
+        {
+            "comment": "string",
+            "match": " \/.*",
+            "name": "comment.line.source.q"
+        },
+        {
+            "begin": "\\\\\n",
+            "comment": "string",
+            "end": "\\\\\n",
+            "name": "comment.block.source.q"
+        },
+        {
+            "comment": "string",
+            "match": "\/ .*",
+            "name": "comment.line.source.q"
+        },
+        {
+            "comment" : "double quoted string",
+            "begin": "\"",
+            "beginCaptures": {
+                "0": {
+                    "name": "punctuation.definition.string.begin.q"
+                }
+            },
+            "end": "\"",
+            "endCaptures": {
+                "0": {
+                    "name": "punctuation.definition.string.end.q"
+                }
+            },
+            "name": "string.quoted.double.q",
+            "patterns": [
+                {
+                    "match": "\\\\.",
+                    "name": "constant.character.escape.q"
+                }
+            ]
+        },
+        {
+            "comment": "q symbols",
+            "match": "`[:\/a-zA-Z0-9_.]+",
+            "name": "string.interpolated.symbol.source.q"
+        },
+        {
+            "captures": {
+                "2": {
+                    "name": "variable.parameter.complex.source.q"
+                }
+            },
+            "comment": "variable definition",
+            "match": "(?=([^a-zA-Z0-9]|\\b))([a-zA-Z]+[a-zA-Z0-9_\\.]*):",
+            "name": "other.source.q"
+        },
+        {
+            "captures": {
+                "2": {
+                    "name": "variable.parameter.complex.source.q"
+                }
+            },
+            "comment": "variable definition",
+            "match": "(?=([^a-zA-Z0-9]|\\b))([a-zA-Z]+[a-zA-Z0-9_\\.]*)[+-,]:",
+            "name": "other.source.q"
+        },
+        {
+            "captures": {
+                "2": {
+                    "name": "keyword.other.complex.source.q"
+                }
+            },
+            "comment": "q keyword",
+            "match": "(?=(\\W|\\b))(abs|acos|aj|aj0|all|and|any|asc|asin|asof|atan|attr|avg|avgs|bin|binr|by|ceiling|cols|cor|cos|count|cov|cross|csv|cut|delete|deltas|desc|dev|differ|distinct|div|do|dsave|each|ej|ema|enlist|eval|except|exec|exit|exp|fby|fills|first|fkeys|flip|floor|from|get|getenv|group|gtime|hclose|hcount|hdel|hopen|hsym|iasc|idesc|if|ij|ijf|in|insert|inter|inv|key|keys|last|like|lj|ljf|load|log|lower|lsq|ltime|ltrim|mavg|max|maxs|mcount|md5|mdev|med|meta|min|mins|mmax|mmin|mmu|mod|msum|neg|next|not|null|or|over|parse|peach|pj|prd|prds|prev|prior|rand|rank|ratios|raze|read0|read1|reciprocal|reval|reverse|rload|rotate|rsave|rtrim|save|scan|scov|sdev|select|set|setenv|show|signum|sin|sqrt|ss|ssr|string|sublist|sum|sums|sv|svar|system|tables|tan|til|trim|type|uj|ujf|ungroup|union|update|upper|upsert|value|var|view|views|vs|wavg|where|while|within|wj|wj1|wsum|ww|xasc|xbar|xcol|xcols|xdesc|xexp|xgroup|xkey|xlog|xprev|xrank)(?=(\\W|\\b))",
+            "name": "other.source.q"
+        },
+        {
+            "captures": {
+                "2": {
+                    "name": "constant.numeric.complex.source.q"
+                }
+            },
+            "comment": "datetime",
+            "match": "(?=(\\W|\\b))([0-9]{4}\\.[0-9]{2}\\.[0-9]{2}[TD]?[0-9]{2}:[0-9]{2}:[0-9]{2}(:[0-9]{2})?(\\.[0-9]{3,6})?)(?=(\\W|\\b))",
+            "name": "other.source.q"
+        },
+        {
+            "captures": {
+                "2": {
+                    "name": "constant.numeric.complex.source.q"
+                }
+            },
+            "comment": "time",
+            "match": "(?=(\\W|\\b))([0-9]{4}\\.[0-9]{2}\\.[0-9]{2}[TD]?)(?=(\\W|\\b))",
+            "name": "other.source.q"
+        },
+        {
+            "captures": {
+                "2": {
+                    "name": "constant.numeric.complex.source.q"
+                }
+            },
+            "comment": "date",
+            "match": "(?=(\\W|\\b))([0-9]{2}:[0-9]{2}:[0-9]{2}(:[0-9]{2})?(\\.[0-9]{3,6})?)(?=(\\W|\\b))",
+            "name": "other.source.q"
+        },
+        {
+            "captures": {
+                "2": {
+                    "name": "constant.numeric.complex.source.q"
+                }
+            },
+            "comment": "boolean,short,integer,long",
+            "match": "(?=(\\W|\\b))([-]?[0-9]+[bhijef]{0,1}(\\.[0-9]+[m]?)?|0x[a-f0-9]+)(?=(\\W|\\b))",
+            "name": "other.source.q"
+        }
+    ],
+
+    "uuid": "f815231e-15c5-543f-985a-744aa1154ded"
+}

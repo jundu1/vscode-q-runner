@@ -7,6 +7,14 @@
     "engines": {
         "vscode": "^1.18.0"
     },
+	"categories": [
+		"Languages"
+	],
+	"keywords": [
+		"KDB+",
+		"q",
+		"Database"
+	],
     "activationEvents": [
         "onCommand:q-runner.createTerminal",
         "onCommand:q-runner.runSelectionInLastTerminal",
@@ -14,6 +22,26 @@
     ],
     "main": "./src/extension",
     "contributes": {
+		"languages": [
+			{
+				"id": "q",
+				"aliases": [
+					"q",
+					"q"
+				],
+				"extensions": [
+					".q"
+				],
+				"configuration": "./language-configuration.json"
+			}
+		],
+		"grammars": [
+			{
+				"language": "q",
+				"scopeName": "source.q",
+				"path": "./syntaxes/Q.tmLanguage.json"
+			}
+		],
         "commands": [
             {
                 "command": "q-runner.createTerminal",
@@ -154,20 +182,10 @@
 			"type": "object",
 			"title": "Q Runner configuration",
 			"properties": {
-                "q-runner.initKerberosHost": {
-					"type": "string",
-					"default": "nycoredev4",
-					"description": "Default Kerberos Host to be connected."
-                },
                 "q-runner.initWinGitBashCmd": {
 					"type": "string",
 					"default": "cd C:/Dev/debug",
 					"description": "Initial Windows git bash command upon creation of runQ terminal"
-                },
-				"q-runner.initUnixCmd": {
-					"type": "string",
-					"default": "q",
-					"description": "Initial unix command. Executed post SSH"
                 },
                 "q-runner.exportPath": {
 					"type": "string",
