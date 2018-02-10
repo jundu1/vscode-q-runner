@@ -16,6 +16,7 @@
 		"Database"
 	],
     "activationEvents": [
+        "onLanguage:q",
         "onCommand:q-runner.createTerminal",
         "onCommand:q-runner.runSelectionInLastTerminal",
         "onCommand:q-runner.runAndExportInLastTerminal"
@@ -26,8 +27,8 @@
 			{
 				"id": "q",
 				"aliases": [
-					"q",
-					"q"
+					"Q",
+					"KDB"
 				],
 				"extensions": [
 					".q"

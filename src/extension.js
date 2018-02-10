@@ -2,23 +2,17 @@
 // Import the module and reference it with the alias vscode in your code below
 const vscode = require('vscode');
 const codeManager_1 = require("./codeManager");
+const symbolManager_1 = require("./symbolManager");
 
 // this method is called when your extension is activated
 // your extension is activated the very first time the command is executed
 function activate(context) {
-
-    // Use the console to output diagnostic information (console.log) and errors (console.error)
-    // This line of code will only be executed once when your extension is activated
-    // console.log('Congratulations, your extension "q-runner" is now active!');
-
     const codeManager = new codeManager_1.CodeManager();
-    // vscode.window.onDidCloseTerminal(() => {
-    //     codeManager.onDidCloseTerminal();
-    // });
-    // The command has been defined in the package.json file
-    // Now provide the implementation of the command with  registerCommand
-    // The commandId parameter must match the command field in package.json
-
+    context.subscriptions.push(vscode.languages.registerDocumentSymbolProvider( 
+        {language: 'q', scheme: 'file'}, 
+        new symbolManager_1.QDocumentSymbolProvider())),
+    // context.subscriptions.push(vscode.languages.registerWorkspaceSymbolProvider(new symbolManager_1.QWorkspaceSymbolProvider()));
+    
     context.subscriptions.push(vscode.commands.registerCommand('q-runner.createTerminal', () => {
         codeManager.createTerminal()
     }));

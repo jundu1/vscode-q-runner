@@ -1,9 +1,8 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 const os = require("os");
-const path_1 = require("path");
+// const path_1 = require("path");
 const vscode = require("vscode");
-// const appInsightsClient_1 = require("./appInsightsClient");
-const TmpDir = os.tmpdir();
+// const TmpDir = os.tmpdir();
 class CodeManager {
     constructor() {
         this._terminalList = [];
@@ -20,6 +19,7 @@ class CodeManager {
         const newTerminal = vscode.window.createTerminal('runQ ' + (this._terminalList.length + 1));
         this._terminalList.push(newTerminal);
         this.execInitCmd(newTerminal);
+        newTerminal.show();
     }
     disposeLastTerminal() {
         if (this._terminalList.length === 0) {
