@@ -4,10 +4,13 @@ This is the VSCode Q Runner extension. It gives you some helpful commands that r
 
 ## Features
 
+Create enriched integrated terminal to run Q
 ![Create Terminal](images/create-terminal.png)
 
+Parse and run multi-line selection in integrated terminal
 ![Run Selection](images/run-selection.png)
 
+Show variable / function list of the file
 ![Symbol List](images/symbol-list.png)
 
 ## Release Notes
