@@ -15,6 +15,15 @@
 		"q",
 		"Database"
 	],
+    "icon": "icon.png",
+    "homepage": "https://github.com/jundu1/Q-Runner/blob/master/README.md",
+    "bugs": {
+        "url": "https://github.com/jundu1/Q-Runner/issues"
+    },
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/jundu1/Q-Runner"
+    },
     "activationEvents": [
         "onLanguage:q",
         "onCommand:q-runner.createTerminal",
