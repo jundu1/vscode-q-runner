@@ -18,7 +18,7 @@ Run selection and export result to csv
 
 Show variable / function list of the file, and go to the declaration of the variable / funciton
 
-![Symbol List](images/symbol-list.png)
+![Symbol List](images/var-list.gif)
 
 ## Release Notes
 
