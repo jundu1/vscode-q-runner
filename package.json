@@ -1,7 +1,7 @@
 {
     "name": "q-runner",
-    "displayName": "q-runner",
-    "description": "",
+    "displayName": "KDB+/Q-Runner",
+    "description": "Q Language Support for Visual Studio Code ",
     "version": "0.1.0",
     "publisher": "jundu",
     "engines": {
