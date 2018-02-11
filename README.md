@@ -12,7 +12,11 @@ Parse and run multi-line selection in integrated terminal
 
 ![Run Selection](images/run-selection.png)
 
-Show variable / function list of the file
+Run selection and export result to csv
+
+![Run Selection](images/export.gif)
+
+Show variable / function list of the file, and go to the declaration of the variable / funciton
 
 ![Symbol List](images/symbol-list.png)
 
@@ -22,4 +26,4 @@ Show variable / function list of the file
 
 ## Download
 
-* [Visual Studio Code | Marketplace](https://marketplace.visualstudio.com/items?itemName=)
+* [Visual Studio Code | Marketplace](https://marketplace.visualstudio.com/items?itemName=jundu.q-runner)
