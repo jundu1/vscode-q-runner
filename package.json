@@ -2,19 +2,19 @@
     "name": "q-runner",
     "displayName": "KDB+/Q-Runner",
     "description": "Q Language Support for Visual Studio Code ",
-    "version": "0.1.2",
+    "version": "0.1.3",
     "publisher": "jundu",
     "engines": {
         "vscode": "^1.18.0"
     },
-	"categories": [
-		"Languages"
-	],
-	"keywords": [
-		"KDB+",
-		"q",
-		"Database"
-	],
+    "categories": [
+        "Languages"
+    ],
+    "keywords": [
+        "KDB+",
+        "q",
+        "Database"
+    ],
     "icon": "icon.png",
     "homepage": "https://github.com/jundu1/Q-Runner/blob/master/README.md",
     "bugs": {
@@ -32,26 +32,26 @@
     ],
     "main": "./src/extension",
     "contributes": {
-		"languages": [
-			{
-				"id": "q",
-				"aliases": [
-					"Q",
-					"KDB"
-				],
-				"extensions": [
-					".q"
-				],
-				"configuration": "./language-configuration.json"
-			}
-		],
-		"grammars": [
-			{
-				"language": "q",
-				"scopeName": "source.q",
-				"path": "./syntaxes/Q.tmLanguage.json"
-			}
-		],
+        "languages": [
+            {
+                "id": "q",
+                "aliases": [
+                    "Q",
+                    "KDB"
+                ],
+                "extensions": [
+                    ".q"
+                ],
+                "configuration": "./language-configuration.json"
+            }
+        ],
+        "grammars": [
+            {
+                "language": "q",
+                "scopeName": "source.q",
+                "path": "./syntaxes/Q.tmLanguage.json"
+            }
+        ],
         "commands": [
             {
                 "command": "q-runner.createTerminal",
@@ -171,36 +171,36 @@
                 "command": "q-runner.runAndExportInRunQ_6",
                 "key": "ctrl+shift+6"
             }
-		],
-		"menus": {
-			"editor/context": [
-				{
+        ],
+        "menus": {
+            "editor/context": [
+                {
                     "command": "q-runner.createTerminal",
                     "group": "navigation"
-				},
-				{
+                },
+                {
                     "command": "q-runner.runSelectionInLastTerminal",
-					"group": "navigation"
-				},
-				{
+                    "group": "navigation"
+                },
+                {
                     "command": "q-runner.runAndExportInLastTerminal",
-					"group": "navigation"
-				}
+                    "group": "navigation"
+                }
             ]
         },
-		"configuration": {
-			"type": "object",
-			"title": "Q Runner configuration",
-			"properties": {
+        "configuration": {
+            "type": "object",
+            "title": "Q Runner configuration",
+            "properties": {
                 "q-runner.initWinGitBashCmd": {
-					"type": "string",
-					"default": "cd C:/Dev/debug",
-					"description": "Initial Windows git bash command upon creation of runQ terminal"
+                    "type": "string",
+                    "default": "cd C:/Dev/debug",
+                    "description": "Initial Windows git bash command upon creation of runQ terminal"
                 },
                 "q-runner.exportPath": {
-					"type": "string",
-					"default": "",
-					"description": "Set the exporting csv path. If not defined, the work directory will be used"
+                    "type": "string",
+                    "default": "",
+                    "description": "Set the exporting csv path. If not defined, the work directory will be used"
                 }
             }
         }
