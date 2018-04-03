@@ -20,9 +20,6 @@ Show variable / function list of the file, and go to the declaration of the vari
 
 ![Symbol List](images/var-list.gif)
 
-## Release Notes
-
-* 0.1.0 - Initial release.
 
 ## Download
 
