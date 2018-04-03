@@ -215,5 +215,8 @@
         "eslint": "^4.6.1",
         "@types/node": "^7.0.43",
         "@types/mocha": "^2.2.42"
+    },
+    "dependencies": {
+        "npm": "^5.8.0"
     }
 }
