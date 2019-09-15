@@ -1,8 +1,9 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 const os = require("os");
-// const path_1 = require("path");
+const path_1 = require("path");
 const vscode = require("vscode");
-// const TmpDir = os.tmpdir();
+const fs = require("fs");
+const TmpDir = os.tmpdir();
 class CodeManager {
     constructor() {
         this._terminalList = [];
@@ -69,8 +70,6 @@ class CodeManager {
         for (let i = 0; i < splitedLines.length; i++) {
             command += this.removeComments(splitedLines[i]) + ' ';
         }
-        // return command;
-        // TODO: check balanced parentheses 
         if (this.parenthesesAreBalanced(command)) {
             return command;
         } else {
@@ -78,9 +77,53 @@ class CodeManager {
             return '0N!`$"ERROR: Executing Selection; Imbalanced Brackets or Parentheses";';
         }
     }
-    qExportFn(tmpVar) {
+    getWorkspaceFolder(editor) {
+        const doc = editor.document;
+        if (vscode.workspace.workspaceFolders) {
+            if (doc) {
+                const workspaceFolder = vscode.workspace.getWorkspaceFolder(doc.uri);
+                if (workspaceFolder) {
+                    return workspaceFolder.uri.fsPath;
+                }
+            }
+            return vscode.workspace.workspaceFolders[0].uri.fsPath;
+        }
+        else {
+            return undefined;
+        }
+    }
+    getAndExecuteTmpFile(editor) {
+        let tmpCodeFilePath = this._config.get('tmpCodeFilePath');
+        if (tmpCodeFilePath.isEmpty || tmpCodeFilePath === "") {
+            tmpCodeFilePath = this._config.get('exportPath');
+        }
+        if (tmpCodeFilePath.isEmpty || tmpCodeFilePath === "") {
+            tmpCodeFilePath = this.getWorkspaceFolder(editor);
+        }
+        if (tmpCodeFilePath.isEmpty || tmpCodeFilePath === "") {
+            tmpCodeFilePath = path_1.dirname(editor.document.fileName);
+        }
+        if (tmpCodeFilePath.isEmpty || tmpCodeFilePath === "") {
+            tmpCodeFilePath = TmpDir;
+        }
+        tmpCodeFilePath = tmpCodeFilePath[tmpCodeFilePath.length - 1] === '/' 
+            ? tmpCodeFilePath
+            : tmpCodeFilePath + '/';
+        
+        const commandText = editor.selection.isEmpty ? editor.document.getText() : editor.document.getText(editor.selection);
+        this.createRandomFile(commandText, tmpCodeFilePath);
+        
+    }
+    rndName() {
+        return new Date().toISOString().replace(/[-:.]/g, '_');
+    }
+    createRandomFile(content, folder) {
+        const tmpFileName = "tmp_" + this.rndName() + ".q";
+        this._codeFile = path_1.join(folder, tmpFileName);
+        fs.writeFileSync(this._codeFile, content);
+    }
+    qExportFn(tmpName) {
         let exportPath = this._config.get('exportPath');
-        console.log(exportPath);
         if (exportPath.isEmpty || exportPath === "") {
             exportPath = './export/';
         } else {
@@ -89,21 +132,20 @@ class CodeManager {
                 : exportPath + '/export/';
         }
         console.log(exportPath);
-        return '@[{show `$"Exporting to ",(string x), "...";save x; show `$"Exporting....Done";delete ' + tmpVar + ' from `.};'
-            + '`$"' + exportPath + tmpVar + '.csv";'
-            + '{show `$"ERROR: ",x;show `$raze "ERROR: Exporting to ", (system "pwd"), "/export; Not a Table? Access?";delete ' + tmpVar + ' from `.}];';
+        return '@[{show `$"Exporting to ",(string x), "...";save x; show `$"Exporting....Done";delete ' + tmpName + ' from `.};'
+            + '`$"' + exportPath + tmpName + '.csv";'
+            + '{show `$"ERROR: ",x;show `$raze "ERROR: Exporting to ", (system "pwd"), "/export; Not a Table? Access?";delete ' + tmpName + ' from `.}];';
     }
-    qExecuteForExport(tmpVar, command) {
-        const exec = tmpVar + ':: { ' + command + ' }[]; ';
+    qExecuteForExport(tmpName, command) {
+        const exec = tmpName + ':: { ' + command + ' }[]; ';
         const ret = '@[{show `$"Executing Selection..."; ' + exec + ';show `$"Executing Selection...Done"};1b;'
             + '{show `$"ERROR: ",x;show `$"ERROR: Executing Selection; Try Run Selection First Before Exporting"}];';
         return ret;
     }
     qExportParser(editor) {
         const command = this.qParser(editor);
-        const dateTimeString = new Date().toISOString().replace(/[-:.]/g, '_');
-        const tmpVar = 'runQExport_' + dateTimeString;
-        const exportComm = this.qExecuteForExport(tmpVar, command) + this.qExportFn(tmpVar);
+        const tmpName = 'runQExport_' + this.rndName();
+        const exportComm = this.qExecuteForExport(tmpName, command) + this.qExportFn(tmpName);
         return exportComm;
     }
     parenthesesAreBalanced(checkStr) {
