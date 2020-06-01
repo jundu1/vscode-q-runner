@@ -2,6 +2,8 @@
 
 This is the VSCode Q Runner extension. It gives you some helpful commands that run [KDB/Q](https://en.wikipedia.org/wiki/Q_(programming_language_from_Kx_Systems)) queries.
 
+Published in the Microsoft Visual Studio Market Place. Please visit https://marketplace.visualstudio.com/items?itemName=jundu.q-runner for download and more
+
 ## Features
 
 Create enriched integrated terminal to run Q
